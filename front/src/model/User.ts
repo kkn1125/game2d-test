@@ -1,4 +1,12 @@
-import { ctx, joystick, SIZE, SPEED, units } from "../util/global";
+import {
+  COLOR,
+  ctx,
+  joystick,
+  master,
+  SCALE,
+  SIZE,
+  units,
+} from "../util/global";
 
 export default class User {
   /* basic properties */
@@ -6,6 +14,7 @@ export default class User {
   x: number;
   y: number;
   size: number;
+  color: string;
 
   /* intialize properties */
   constructor(id?: number, x?: number, y?: number, size?: number) {
@@ -13,7 +22,15 @@ export default class User {
     x !== undefined && (this.x = x);
     y !== undefined && (this.y = y);
     size !== undefined && (this.size = size);
-    this.size ??= SIZE.UNIT;
+    this.size ??= SIZE.UNIT * SCALE.RATIO;
+    this.color = COLOR.UNIT;
+  }
+
+  warnColor() {
+    this.color = COLOR.WARN;
+  }
+  defaultColor() {
+    this.color = COLOR.UNIT;
   }
 
   setId(id: number) {
@@ -38,11 +55,18 @@ export default class User {
     } as User;
   }
 
-  render() {
+  render(isMe: boolean) {
     const baseX = innerWidth / 2;
     const baseY = innerHeight / 2;
-    const unitX = this.x * SPEED.UNIT * 10;
-    const unitY = this.y * SPEED.UNIT * 10;
+    const unitX = isMe
+      ? 0
+      : this.x * SCALE.UNIT * SCALE.RATIO -
+        master.me.x * SCALE.UNIT * SCALE.RATIO;
+    const unitY = isMe
+      ? 0
+      : this.y * SCALE.UNIT * SCALE.RATIO -
+        master.me.y * SCALE.UNIT * SCALE.RATIO;
+    ctx.fillStyle = COLOR.NAME;
     ctx.textAlign = "center";
     ctx.font = "bold 1rem Arial";
     ctx.fillText(
@@ -50,6 +74,8 @@ export default class User {
       baseX + unitX + this.size / 2,
       baseY + unitY - this.size / 2
     );
+    ctx.fillStyle = this.color;
+    // console.log(this.color)
     ctx.fillRect(baseX + unitX, baseY + unitY, this.size, this.size);
   }
 
@@ -100,10 +126,12 @@ export default class User {
       const view = new Uint8Array(7);
       const numX = Number(String(unitMoveX).split(".")[0]);
       const restX =
-        unitMoveX * 10 - Number(String(unitMoveX).split(".")[0]) * 10;
+        unitMoveX * SCALE.RATIO -
+        Number(String(unitMoveX).split(".")[0]) * SCALE.RATIO;
       const numY = Number(String(unitMoveY).split(".")[0]);
       const restY =
-        unitMoveY * 10 - Number(String(unitMoveY).split(".")[0]) * 10;
+        unitMoveY * SCALE.RATIO -
+        Number(String(unitMoveY).split(".")[0]) * SCALE.RATIO;
 
       view[0] = unit.id;
       view[1] = unitMoveX > 0 ? 1 : 0;

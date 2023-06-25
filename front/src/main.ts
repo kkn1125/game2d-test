@@ -103,11 +103,16 @@ function clearCanvas() {
 
 function render(timer?: number) {
   clearCanvas();
+  map.render();
+  if (master.me) {
+    map.collision();
+  }
+
   units.forEach((unit) => {
     moveUnit();
-    unit.render();
+
+    unit.render(master.me.id === unit.id);
   });
-  map.render();
   requestAnimationFrame(render);
 }
 

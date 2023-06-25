@@ -7,9 +7,15 @@ export const units: Map<number, User> = new Map();
 export const SPEED = {
   UNIT: 5,
 };
+export const SCALE = {
+  UNIT: 5,
+  RATIO: 10,
+  MAP_VALUE: 1.1,
+  UNNIT_VALUE: 1,
+};
 export const SIZE = {
-  UNIT: 30,
-  BLOCK: 50,
+  UNIT: 3,
+  BLOCK: 5,
 };
 export const joystick = {
   w: false,
@@ -19,4 +25,11 @@ export const joystick = {
 };
 export let master = {
   me: {} as User,
+};
+export const COLOR = {
+  WARN: "#ff0000",
+  NAME: "#000000",
+  UNIT: "#ffff00",
+  BLOCK: "#555555",
+  ROAD: "#cccccc",
 };

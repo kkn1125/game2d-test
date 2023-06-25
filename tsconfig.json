@@ -34,6 +34,6 @@
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["**/node_modules/*", "build"]
+  "exclude": ["**/node_modules/*", "build", "front/*"]
   // "extends": "@tsconfig/node18/tsconfig.json"
 }
