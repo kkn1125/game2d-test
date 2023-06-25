@@ -16,7 +16,7 @@ const app = uWS
     /* Options */
     compression: uWS.SHARED_COMPRESSOR,
     maxPayloadLength: 16 * 1024 * 1024,
-    idleTimeout: 32,
+    idleTimeout: 64,
     /* Handlers */
     upgrade: (res, req, context) => {
       console.log(
@@ -58,7 +58,7 @@ const app = uWS
             secWebSocketExtensions,
             context
           );
-          count++;
+          query.id === undefined && count++;
         });
       }, 1000);
 

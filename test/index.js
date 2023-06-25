@@ -5,9 +5,7 @@ const me = {
 };
 const units = new Map();
 
-let selector = 0;
-
-let count = 30;
+let count = 20;
 
 const start = 100;
 const end = count + start;
@@ -35,13 +33,6 @@ function connect(id) {
     try {
       const json = JSON.parse(data);
       if (json.type === "init") {
-        // units.set(id, {
-        //   id: id,
-        //   x: 0,
-        //   y: 0,
-        //   size: 30,
-        // });
-
         me.id = json.id;
         units.set(me.id, {
           id: me.id,
@@ -52,20 +43,7 @@ function connect(id) {
         console.log("data bind:", id);
 
         loadDone = true;
-        // json.users.forEach((user) => {
-        //   console.log(user);
-        //   if (!units.has(user.id)) {
-        //     units.set(user.id, user);
-        //   }
-        // });
       } else if (json.type === "list") {
-        // console.log("receive", json.users);
-        // json.users.forEach((user) => {
-        //   console.log(user);
-        //   if (!units.has(user.id)) {
-        //     units.set(user.id, user);
-        //   }
-        // });
       }
     } catch (error) {
       const view = new DataView(data);
@@ -103,12 +81,10 @@ for (let i = start; i < end; i++) {
 function playRandom(id) {
   const player = dummyPlayers.get(id);
   if (player) {
-    let unitMoveX = Math.random() * 2;
-    let unitMoveY = Math.random() * 2;
+    let unitMoveX = Math.random() * 5 - 0.5;
+    let unitMoveY = Math.random() * 5 - 0.5;
 
     const view = new Uint8Array(7);
-
-    // console.log("position", unit.id, unit.x, unit.y);
 
     const numX = Number(String(unitMoveX).split(".")[0]);
     const restX = unitMoveX * 10 - Number(String(unitMoveX).split(".")[0]) * 10;
@@ -128,7 +104,8 @@ function playRandom(id) {
 
 setInterval(() => {
   if (loadDone) {
-    playRandom((selector % count) + start);
-    selector++;
+    for (let i = start; i < end; i++) {
+      playRandom(i);
+    }
   }
 }, 16);
