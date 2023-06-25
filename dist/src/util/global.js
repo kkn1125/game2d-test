@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.PORT=exports.HOST=exports.MODE=void 0,exports.MODE=process.env.NODE_ENV,exports.HOST=process.env.HOST,exports.PORT=Number(process.env.PORT)||9e3;
